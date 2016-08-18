@@ -1,0 +1,8 @@
+UserType,FirstName,LastName,TelePhone,Address,Email,Id
+Admin,John,Smith,5551234,123 Avenue,js@gmail.com,123
+Parent,Grady,Lewis,5551222,121 Blvd,gd@gmail.com,124
+Staff,Jason,Douglas,5551233,122 Drive,jd@gmail.com,125
+Id,Password,UserType
+123,pass1     ,Admin
+124,pass1     ,Parent
+125,pass1     ,Staff
