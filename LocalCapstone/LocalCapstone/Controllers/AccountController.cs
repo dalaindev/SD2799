@@ -30,7 +30,17 @@ namespace LocalCapstone.Controllers
             _repo = new AuthRepository();
         }
 
-        //Need a GET Method apparently
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+
+
+        // POST api/Account/Logout
+        [Route("Logout")]
+        public IHttpActionResult Logout()
+        {
+            Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            return Ok();
+        }
+
 
         // POST api/Account/Register
         [AllowAnonymous]
@@ -55,7 +65,6 @@ namespace LocalCapstone.Controllers
         }
 
 
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -64,6 +73,13 @@ namespace LocalCapstone.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        #region Helpers
+
+        private IAuthenticationManager Authentication
+        {
+            get { return Request.GetOwinContext().Authentication; }
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
@@ -94,5 +110,29 @@ namespace LocalCapstone.Controllers
 
             return null;
         }
+    
+
+        private static class RandomOAuthStateGenerator
+        {
+            private static RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+
+            public static string Generate(int strengthInBits)
+            {
+                const int bitsPerByte = 8;
+
+                if (strengthInBits % bitsPerByte != 0)
+                {
+                    throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
+                }
+
+                int strengthInBytes = strengthInBits / bitsPerByte;
+
+                byte[] data = new byte[strengthInBytes];
+                _random.GetBytes(data);
+                return HttpServerUtility.UrlTokenEncode(data);
+            }
+        }
+
+        #endregion
     }
 }

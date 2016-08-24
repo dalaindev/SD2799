@@ -21,7 +21,7 @@ namespace LocalCapstone.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("datainstance", throwIfV1Schema: false)
         {
         }
         
