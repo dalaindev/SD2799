@@ -26,6 +26,7 @@ namespace LocalCapstone
             ConfigureOAuth(app);
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
 
             // Configure the db context and user manager to use a single instance per request
