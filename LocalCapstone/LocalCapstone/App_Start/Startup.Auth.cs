@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using LocalCapstone.Providers;
 using LocalCapstone.Models;
+using System.Web.Http;
 
 namespace LocalCapstone
 {
@@ -22,6 +23,10 @@ namespace LocalCapstone
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            HttpConfiguration config = new HttpConfiguration();
+            WebApiConfig.Register(config);
+            app.UseWebApi(config);
+
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
